@@ -14,10 +14,16 @@ python bin/analysis.ershoufang.py > outData/analysis/ershoufang/tmp/ershoufang.a
 cat outData/analysis/ershoufang/tmp/ershoufang.analysis | awk "/^DISTRICT|^FILE:/" > outData/analysis/ershoufang/tmp/ershoufang.district
 cat outData/analysis/ershoufang/tmp/ershoufang.analysis | awk "/^COMMUNITY|^FILE:/" > outData/analysis/ershoufang/tmp/ershoufang.community
 
-cat outData/analysis/ershoufang/tmp/ershoufang.community | python bin/sortHot.py > outData/analysis/ershoufang/tmp/youShouldCare.community
 #cat outData/analysis/ershoufang/tmp/ershoufang.community | python bin/sortHot.py > outData/analysis/ershoufang/tmp/youShouldCare.community
-cat outData/analysis/ershoufang/tmp/ershoufang.district | python bin/sortHot.py > outData/analysis/ershoufang/tmp/youShouldCare.district
 #cat outData/analysis/ershoufang/tmp/ershoufang.district | python bin/sortHot.py > outData/analysis/ershoufang/tmp/youShouldCare.district
 
-cat outData/analysis/ershoufang/tmp/lastFile.data | grep COMMUNITY |  sort -t " " -k 4 -rn > outData/analysis/ershoufang/tmp/community.sort_
-cat outData/analysis/ershoufang/tmp/lastFile.data | grep DISTRICT |  sort -t " " -k 6 -rn > outData/analysis/ershoufang/tmp/district.sort_
+cat outData/analysis/ershoufang/tmp/lastFile.data | grep COMMUNITY |  sort -t " " -k 4 -rn > outData/analysis/ershoufang/tmp/community.latest
+cat outData/analysis/ershoufang/tmp/lastFile.data | grep DISTRICT |  sort -t " " -k 6 -rn > outData/analysis/ershoufang/tmp/district.latest
+
+## RECOMMEND
+python bin/growGradient.py > outData/analysis/ershoufang/tmp/recommend.accordingGrowth
+
+# focus
+cat outData/analysis/ershoufang/tmp/recommend.accordingGrowth | python bin/focusCommunity.py > outData/analysis/ershoufang/tmp/community.focus
+
+

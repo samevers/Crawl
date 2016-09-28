@@ -3,7 +3,7 @@
 import sys,os,re
 
 
-historiesFile = "outData/ershoufang/"
+historiesFile = "outData/ershoufang"
 
 ## Make statistic calculating of each file.
 def averageGo(filename, isLastFile):
@@ -15,7 +15,6 @@ def averageGo(filename, isLastFile):
 
 	districtCaseNum = {}
 	communityCaseNum = {}
-
 	fin = open(filename, 'r')
 	for line in fin.readlines():
 		line = line.strip()
@@ -31,7 +30,6 @@ def averageGo(filename, isLastFile):
 		#day = int(arr[10])
 		district = arr[14]
 		community = district + "_" + arr[0]
-
 		## districtAvgPrice
 		if district in districtAvgPrice:
 			districtAvgPrice[district] += unitPrice
@@ -48,22 +46,21 @@ def averageGo(filename, isLastFile):
 		#print community,"\t",communityPrice[community]
 		#communityFocus[community] = float(focusNum + seenNum)/float(day+1)
 		communityFocus[community] = focusNum + seenNum
-
 	fin.close()
+
 	## District average price goes
 	lastFile = open("outData/analysis/ershoufang/tmp/lastFile.data", 'w')
 	for dis,price in districtAvgPrice.items():
 		districtAvgPrice[dis] = float(price)/float(districtCaseNum[dis])
 		if isLastFile == 1:
 			lastFile.write("DISTRICT: %s CaseNum: %d AvgPrice: %d\n" % (dis,districtCaseNum[dis], districtAvgPrice[dis]))
-		else:
-			sys.stdout.write("DISTRICT: %s CaseNum: %d AvgPrice: %d\n" % (dis,districtCaseNum[dis], districtAvgPrice[dis]))
+		sys.stdout.write("DISTRICT: %s CaseNum: %d AvgPrice: %d\n" % (dis,districtCaseNum[dis], districtAvgPrice[dis]))
+
 	for com,price in communityPrice.items():
 		communityAvgPrice[com] = float(price)/float(communityCaseNum[com])
 		if isLastFile == 1:
 			lastFile.write("COMMUNITY: %s AvgPrice: %d CaseNum: %d Focus: %d\n" % (com,communityAvgPrice[com], communityCaseNum[com], communityFocus[com]))
-		else:
-			sys.stdout.write("COMMUNITY: %s AvgPrice: %d CaseNum: %d Focus: %d\n" % (com,communityAvgPrice[com], communityCaseNum[com], communityFocus[com]))
+		sys.stdout.write("COMMUNITY: %s AvgPrice: %d CaseNum: %d Focus: %d\n" % (com,communityAvgPrice[com], communityCaseNum[com], communityFocus[com]))
 	lastFile.close()
 
 
@@ -80,7 +77,7 @@ if __name__ ==  "__main__":
 		if file_.find(".gbk") == -1:
 			continue
 		sys.stdout.write("FILE:%s\n" % file_)
-		if  num == filesNum -1:
+		if  num == filesNum:
 			isLastFile = 1
 		num += 1
 		averageGo(historiesFile + "/" + file_, isLastFile)
